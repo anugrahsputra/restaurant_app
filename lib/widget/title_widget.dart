@@ -16,7 +16,7 @@ class TitleWidget extends StatelessWidget {
           ),
         ),
         Text(
-          'Find',
+          'Finder',
           style: TextStyle(
             fontSize: 57,
             fontWeight: FontWeight.bold,
