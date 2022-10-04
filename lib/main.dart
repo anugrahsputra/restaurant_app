@@ -3,6 +3,7 @@ import 'package:restaurant_app/constant/style.dart';
 import 'package:restaurant_app/models/restaurant.dart';
 import 'package:restaurant_app/ui/restaurant_detail.dart';
 import 'package:restaurant_app/ui/restaurant_list.dart';
+import 'package:restaurant_app/ui/search_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -31,6 +32,7 @@ class MyApp extends StatelessWidget {
               restaurant:
                   ModalRoute.of(context)?.settings.arguments as Restaurant,
             ),
+        Search.routeName: (context) => const Search(),
       },
     );
   }

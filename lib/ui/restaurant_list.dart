@@ -16,7 +16,7 @@ class RestaurantList extends StatelessWidget {
         child: SingleChildScrollView(
           child: Container(
             padding: const EdgeInsets.only(
-              top: 20,
+              top: 24,
               left: 15,
               right: 15,
               bottom: 20,
@@ -24,13 +24,18 @@ class RestaurantList extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const TitleWidget(),
-                const Text(
-                  'Find your favorite restaurant',
-                  style: TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const TitleWidget(),
+                    IconButton(
+                      onPressed: () => Navigator.pushNamed(context, '/search'),
+                      icon: const Icon(
+                        Icons.search,
+                        size: 28,
+                      ),
+                    ),
+                  ],
                 ),
                 const SizedBox(
                   height: 20,
