@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:provider/provider.dart';
+import 'package:restaurant_app/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/style.dart';
-import 'package:restaurant_app/models/restaurant.dart';
+import 'package:restaurant_app/models/list_restaurant.dart';
+
+import 'package:restaurant_app/provider/list_restaurant_provider.dart';
 import 'package:restaurant_app/widget/title_widget.dart';
 
 class RestaurantList extends StatelessWidget {
@@ -40,23 +44,50 @@ class RestaurantList extends StatelessWidget {
                 const SizedBox(
                   height: 20,
                 ),
-                FutureBuilder<String>(
-                  future: DefaultAssetBundle.of(context)
-                      .loadString('assets/local_restaurant.json'),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      final restaurants = restaurantsFromJson(snapshot.data!);
+                // FutureBuilder<String>(
+                //   future: DefaultAssetBundle.of(context)
+                //       .loadString('assets/local_restaurant.json'),
+                //   builder: (context, snapshot) {
+                //     if (snapshot.hasData) {
+                //       final restaurants = restaurantsFromJson(snapshot.data!);
+                //       return ListView.builder(
+                //         physics: const NeverScrollableScrollPhysics(),
+                //         shrinkWrap: true,
+                //         itemCount: restaurants.restaurants!.length,
+                //         itemBuilder: (context, index) {
+                //           final restaurant = restaurants.restaurants![index];
+                //           return _buildRestaurantCard(context, restaurant);
+                //         },
+                //       );
+                //     } else {
+                //       return const Center(child: CircularProgressIndicator());
+                //     }
+                //   },
+                // ),
+                Consumer<ListRestaurantProvider>(
+                  builder: (context, state, _) {
+                    if (state.state == ResultState.loading) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else if (state.state == ResultState.hasData) {
                       return ListView.builder(
                         physics: const NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: restaurants.restaurants!.length,
+                        itemCount: state.list.restaurants.length,
                         itemBuilder: (context, index) {
-                          final restaurant = restaurants.restaurants![index];
+                          final restaurant = state.list.restaurants[index];
                           return _buildRestaurantCard(context, restaurant);
                         },
                       );
+                    } else if (state.state == ResultState.noData) {
+                      return Center(
+                        child: Text(state.message),
+                      );
                     } else {
-                      return const Center(child: CircularProgressIndicator());
+                      return const Center(
+                        child: Text(''),
+                      );
                     }
                   },
                 ),
@@ -72,13 +103,13 @@ class RestaurantList extends StatelessWidget {
     return ListTile(
       onTap: () {
         Navigator.pushNamed(context, '/restaurant_detail',
-            arguments: restaurant);
+            arguments: restaurant.id);
       },
       contentPadding: const EdgeInsets.symmetric(vertical: 5),
       leading: ClipRRect(
         borderRadius: BorderRadius.circular(10),
         child: Image.network(
-          restaurant.pictureId ?? '',
+          RestaurantApi().mediumImage(restaurant.pictureId),
           width: 80,
           height: 120,
           fit: BoxFit.cover,
@@ -90,12 +121,12 @@ class RestaurantList extends StatelessWidget {
       title: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(restaurant.name!, style: textTheme.headline6),
+          Text(restaurant.name, style: textTheme.headline6),
           Row(
             children: [
               RatingBarIndicator(
                 direction: Axis.horizontal,
-                rating: restaurant.rating!,
+                rating: restaurant.rating,
                 itemCount: 5,
                 itemSize: 15,
                 itemBuilder: (context, _) => const Icon(
@@ -111,7 +142,7 @@ class RestaurantList extends StatelessWidget {
           ),
         ],
       ),
-      subtitle: Text(restaurant.city!),
+      subtitle: Text(restaurant.city),
       trailing: const Icon(Icons.chevron_right),
       visualDensity: VisualDensity.adaptivePlatformDensity,
     );
