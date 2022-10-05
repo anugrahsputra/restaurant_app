@@ -40,6 +40,7 @@ dependencies:
   flutter_rating_bar: ^4.0.1
   provider: ^6.0.3
   http: ^0.13.5
+  loading_animation_widget: ^1.2.0+3
 
 dev_dependencies:
   flutter_test:
