@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/api/restaurant_api.dart';
+import 'package:restaurant_app/constant/result_state.dart';
 import 'package:restaurant_app/constant/style.dart';
 import 'package:restaurant_app/models/list_restaurant.dart';
 
@@ -17,82 +19,69 @@ class RestaurantList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.only(
-              top: 24,
-              left: 15,
-              right: 15,
-              bottom: 20,
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const TitleWidget(),
-                    IconButton(
-                      onPressed: () => Navigator.pushNamed(context, '/search'),
-                      icon: const Icon(
-                        Icons.search,
-                        size: 28,
-                      ),
+        child: Container(
+          padding: const EdgeInsets.only(
+            top: 24,
+            left: 15,
+            right: 15,
+            bottom: 20,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const TitleWidget(),
+                  IconButton(
+                    onPressed: () => Navigator.pushNamed(context, '/search'),
+                    icon: const Icon(
+                      Icons.search,
+                      size: 28,
                     ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                // FutureBuilder<String>(
-                //   future: DefaultAssetBundle.of(context)
-                //       .loadString('assets/local_restaurant.json'),
-                //   builder: (context, snapshot) {
-                //     if (snapshot.hasData) {
-                //       final restaurants = restaurantsFromJson(snapshot.data!);
-                //       return ListView.builder(
-                //         physics: const NeverScrollableScrollPhysics(),
-                //         shrinkWrap: true,
-                //         itemCount: restaurants.restaurants!.length,
-                //         itemBuilder: (context, index) {
-                //           final restaurant = restaurants.restaurants![index];
-                //           return _buildRestaurantCard(context, restaurant);
-                //         },
-                //       );
-                //     } else {
-                //       return const Center(child: CircularProgressIndicator());
-                //     }
-                //   },
-                // ),
-                Consumer<ListRestaurantProvider>(
-                  builder: (context, state, _) {
-                    if (state.state == ResultState.loading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    } else if (state.state == ResultState.hasData) {
-                      return ListView.builder(
-                        physics: const NeverScrollableScrollPhysics(),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              Consumer<ListRestaurantProvider>(
+                builder: (context, state, _) {
+                  if (state.state == ResultState.loading) {
+                    return Column(
+                      children: [
+                        SizedBox(
+                          height: MediaQuery.of(context).size.height / 3,
+                        ),
+                        Center(
+                          child: LoadingAnimationWidget.beat(
+                              color: secondaryColor, size: 40),
+                        ),
+                      ],
+                    );
+                  } else if (state.state == ResultState.hasData) {
+                    return Expanded(
+                      child: ListView.builder(
                         shrinkWrap: true,
                         itemCount: state.list.restaurants.length,
                         itemBuilder: (context, index) {
                           final restaurant = state.list.restaurants[index];
                           return _buildRestaurantCard(context, restaurant);
                         },
-                      );
-                    } else if (state.state == ResultState.noData) {
-                      return Center(
-                        child: Text(state.message),
-                      );
-                    } else {
-                      return const Center(
-                        child: Text(''),
-                      );
-                    }
-                  },
-                ),
-              ],
-            ),
+                      ),
+                    );
+                  } else if (state.state == ResultState.noData) {
+                    return Center(
+                      child: Text(state.message),
+                    );
+                  } else {
+                    return const Center(
+                      child: Text(''),
+                    );
+                  }
+                },
+              ),
+            ],
           ),
         ),
       ),

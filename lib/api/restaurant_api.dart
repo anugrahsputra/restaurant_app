@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:restaurant_app/models/detail_restaurant.dart';
 import 'package:restaurant_app/models/list_restaurant.dart';
+import 'package:restaurant_app/models/search_restaurant.dart';
 
 class RestaurantApi {
   final String baseUrl = 'https://restaurant-api.dicoding.dev';
@@ -20,6 +22,26 @@ class RestaurantApi {
       return ListRestaurant.fromJson(json.decode(response.body));
     } else {
       throw Exception('Failed to get restaurant list');
+    }
+  }
+
+  Future<DetailRestaurant> detail(id) async {
+    final response =
+        await http.get(Uri.parse('$baseUrl$restaurantDetailUrl$id'));
+    if (response.statusCode == 200) {
+      return DetailRestaurant.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to get detail restaurant');
+    }
+  }
+
+  Future<SearchRestaurant> search(query) async {
+    final response =
+        await http.get(Uri.parse("$baseUrl$restaurantSearchUrl$query"));
+    if (response.statusCode == 200) {
+      return SearchRestaurant.fromJson(json.decode(response.body));
+    } else {
+      throw Exception('Failed to load restaurant search');
     }
   }
 

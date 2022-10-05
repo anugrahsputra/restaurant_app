@@ -1,36 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:restaurant_app/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/result_state.dart';
-import 'package:restaurant_app/models/list_restaurant.dart';
+import 'package:restaurant_app/models/detail_restaurant.dart';
 
-class ListRestaurantProvider extends ChangeNotifier {
+class DetailRestaurantProvider extends ChangeNotifier {
   final RestaurantApi restaurantApi;
 
-  ListRestaurantProvider({required this.restaurantApi}) {
-    _fetchRestaurantList();
+  DetailRestaurantProvider({required this.restaurantApi, required String id}) {
+    _fetchDetailRestaurant(id);
   }
 
-  late ListRestaurant _listRestaurant;
+  late DetailRestaurant _detailRestaurant;
   late ResultState _state;
   String _message = '';
 
-  ListRestaurant get list => _listRestaurant;
+  DetailRestaurant get detail => _detailRestaurant;
   ResultState get state => _state;
   String get message => _message;
 
-  Future _fetchRestaurantList() async {
+  Future _fetchDetailRestaurant(id) async {
     try {
       _state = ResultState.loading;
       notifyListeners();
-      final restaurant = await restaurantApi.list();
-      if (restaurant.restaurants.isEmpty) {
+      final restaurant = await restaurantApi.detail(id);
+      if (restaurant.restaurant.toJson().isEmpty) {
         _state = ResultState.noData;
         notifyListeners();
         return _message = 'data is empty';
       } else {
         _state = ResultState.hasData;
         notifyListeners();
-        return _listRestaurant = restaurant;
+        return _detailRestaurant = restaurant;
       }
     } catch (e) {
       _state = ResultState.error;

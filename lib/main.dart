@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/style.dart';
-import 'package:restaurant_app/models/restaurant.dart';
+
 import 'package:restaurant_app/provider/list_restaurant_provider.dart';
+import 'package:restaurant_app/provider/search_restaurant_provider.dart';
 import 'package:restaurant_app/ui/restaurant_detail.dart';
 import 'package:restaurant_app/ui/restaurant_list.dart';
 import 'package:restaurant_app/ui/search_page.dart';
@@ -23,6 +24,10 @@ class MyApp extends StatelessWidget {
           create: (context) =>
               ListRestaurantProvider(restaurantApi: RestaurantApi()),
         ),
+        ChangeNotifierProvider(
+          create: (context) =>
+              SearchRestaurantProvider(restaurantApi: RestaurantApi()),
+        ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -39,8 +44,7 @@ class MyApp extends StatelessWidget {
         routes: {
           RestaurantList.routeName: (context) => const RestaurantList(),
           RestoDetail.routeName: (context) => RestoDetail(
-                restaurant:
-                    ModalRoute.of(context)?.settings.arguments as Restaurant,
+                id: ModalRoute.of(context)?.settings.arguments as String,
               ),
           Search.routeName: (context) => const Search(),
         },
