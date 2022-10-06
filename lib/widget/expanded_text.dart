@@ -51,15 +51,24 @@ class _ExpandedTextState extends State<ExpandedText> {
                     });
                   },
                   child: Row(
-                    children: const [
-                      Text(
-                        "Show more",
-                        style: TextStyle(
-                          color: secondaryColor,
-                        ),
-                      ),
+                    children: [
+                      isExpanded
+                          ? const Text(
+                              "Show more",
+                              style: TextStyle(
+                                color: secondaryColor,
+                              ),
+                            )
+                          : const Text(
+                              "Show less",
+                              style: TextStyle(
+                                color: secondaryColor,
+                              ),
+                            ),
                       Icon(
-                        Icons.keyboard_arrow_down,
+                        isExpanded
+                            ? Icons.keyboard_arrow_down
+                            : Icons.keyboard_arrow_up,
                         color: secondaryColor,
                       )
                     ],

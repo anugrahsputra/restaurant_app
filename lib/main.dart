@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
               ),
           textTheme: textTheme,
           appBarTheme: const AppBarTheme(elevation: 0),
+          scaffoldBackgroundColor: Colors.white,
         ),
         initialRoute: RestaurantList.routeName,
         routes: {

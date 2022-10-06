@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:http/http.dart' as http;
 import 'package:restaurant_app/models/detail_restaurant.dart';
@@ -18,20 +19,32 @@ class RestaurantApi {
 
   Future<ListRestaurant> list() async {
     final response = await http.get(Uri.parse('$baseUrl$restaurantListUrl'));
-    if (response.statusCode == 200) {
-      return ListRestaurant.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to get restaurant list');
+    try {
+      if (response.statusCode == 200) {
+        return ListRestaurant.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Failed to get restaurant list');
+      }
+    } on SocketException {
+      throw 'No Internet Connection';
+    } catch (e) {
+      rethrow;
     }
   }
 
   Future<DetailRestaurant> detail(id) async {
     final response =
         await http.get(Uri.parse('$baseUrl$restaurantDetailUrl$id'));
-    if (response.statusCode == 200) {
-      return DetailRestaurant.fromJson(json.decode(response.body));
-    } else {
-      throw Exception('Failed to get detail restaurant');
+    try {
+      if (response.statusCode == 200) {
+        return DetailRestaurant.fromJson(json.decode(response.body));
+      } else {
+        throw Exception('Failed to get detail restaurant');
+      }
+    } on SocketException {
+      throw 'No Internet Connection';
+    } catch (e) {
+      rethrow;
     }
   }
 
