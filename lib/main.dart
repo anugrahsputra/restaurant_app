@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/style.dart';
-
 import 'package:restaurant_app/provider/list_restaurant_provider.dart';
 import 'package:restaurant_app/provider/search_restaurant_provider.dart';
 import 'package:restaurant_app/ui/restaurant_detail.dart';

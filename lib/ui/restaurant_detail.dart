@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/result_state.dart';
@@ -34,33 +35,21 @@ class RestoDetail extends StatelessWidget {
               );
             } else if (state.state == ResultState.hasData) {
               return CustomScrollView(
-                physics: const BouncingScrollPhysics(),
                 slivers: [
                   SliverAppBar(
-                    title: Container(
-                      width: 35,
-                      height: 35,
-                      decoration: BoxDecoration(
-                        color: Colors.white70,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
+                    leading: Center(
                       child: IconButton(
                         onPressed: () {
                           Navigator.pop(context);
                         },
                         icon: const Icon(
-                          Icons.arrow_back_ios_new,
-                          size: 20,
-                          color: primaryColor,
+                          MdiIcons.chevronLeftCircle,
+                          size: 35,
                         ),
                       ),
                     ),
-                    automaticallyImplyLeading: false,
                     pinned: true,
-                    floating: true,
-                    snap: true,
-                    elevation: 0,
-                    expandedHeight: 310,
+                    expandedHeight: 300,
                     flexibleSpace: FlexibleSpaceBar(
                       background: Image.network(
                         RestaurantApi()
@@ -70,7 +59,7 @@ class RestoDetail extends StatelessWidget {
                       ),
                     ),
                     bottom: PreferredSize(
-                      preferredSize: const Size.fromHeight(94),
+                      preferredSize: const Size.fromHeight(95),
                       child: SingleChildScrollView(
                         child: Container(
                           padding: const EdgeInsets.only(
