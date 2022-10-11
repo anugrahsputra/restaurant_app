@@ -6,21 +6,33 @@ class TitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: const [
-        Text(
-          'Resto',
-          style: TextStyle(
-            fontSize: 57,
-            fontWeight: FontWeight.bold,
-          ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: const [
+            Text(
+              'Resto',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            Text(
+              'Finder',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                color: secondaryColor,
+              ),
+            ),
+          ],
         ),
-        Text(
-          'Finder',
+        const Text(
+          'Find your favorite restaurant',
           style: TextStyle(
-            fontSize: 57,
-            fontWeight: FontWeight.bold,
-            color: secondaryColor,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
           ),
         ),
       ],
