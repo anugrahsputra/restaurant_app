@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:restaurant_app/api/restaurant_api.dart';
+import 'package:restaurant_app/data/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/result_state.dart';
-import 'package:restaurant_app/models/search_restaurant.dart';
+import 'package:restaurant_app/data/models/search_restaurant.dart';
 
 class SearchRestaurantProvider extends ChangeNotifier {
   final RestaurantApi restaurantApi;

@@ -8,10 +8,10 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/api/restaurant_api.dart';
+import 'package:restaurant_app/data/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/result_state.dart';
 import 'package:restaurant_app/constant/style.dart';
-import 'package:restaurant_app/models/search_restaurant.dart';
+import 'package:restaurant_app/data/models/search_restaurant.dart';
 import 'package:restaurant_app/provider/search_restaurant_provider.dart';
 import 'package:restaurant_app/widget/network_disconnected_widget.dart';
 

@@ -7,10 +7,10 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/api/restaurant_api.dart';
+import 'package:restaurant_app/data/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/result_state.dart';
 import 'package:restaurant_app/constant/style.dart';
-import 'package:restaurant_app/models/list_restaurant.dart';
+import 'package:restaurant_app/data/models/list_restaurant.dart';
 import 'package:restaurant_app/provider/list_restaurant_provider.dart';
 import 'package:restaurant_app/widget/network_disconnected_widget.dart';
 import 'package:restaurant_app/widget/title_widget.dart';
@@ -72,13 +72,13 @@ class _RestaurantListState extends State<RestaurantList> {
   Widget build(BuildContext context) {
     if (_connectionStatus != ConnectivityResult.none) {
       return Scaffold(
+        extendBody: true,
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.only(
               top: 24,
               left: 15,
               right: 15,
-              bottom: 20,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -100,8 +100,8 @@ class _RestaurantListState extends State<RestaurantList> {
                   height: 20,
                 ),
                 Consumer<ListRestaurantProvider>(
-                  builder: (context, state, _) {
-                    if (state.state == ResultState.loading) {
+                  builder: (context, value, _) {
+                    if (value.state == ResultState.loading) {
                       return Column(
                         children: [
                           SizedBox(
@@ -113,20 +113,20 @@ class _RestaurantListState extends State<RestaurantList> {
                           ),
                         ],
                       );
-                    } else if (state.state == ResultState.hasData) {
+                    } else if (value.state == ResultState.hasData) {
                       return Expanded(
                         child: ListView.builder(
                           shrinkWrap: true,
-                          itemCount: state.list.restaurants.length,
+                          itemCount: value.list.restaurants.length,
                           itemBuilder: (context, index) {
-                            final restaurant = state.list.restaurants[index];
+                            final restaurant = value.list.restaurants[index];
                             return _buildRestaurantCard(context, restaurant);
                           },
                         ),
                       );
-                    } else if (state.state == ResultState.noData) {
+                    } else if (value.state == ResultState.noData) {
                       return Center(
-                        child: Text(state.message),
+                        child: Text(value.message),
                       );
                     } else {
                       return const Center(
@@ -142,6 +142,7 @@ class _RestaurantListState extends State<RestaurantList> {
       );
     } else {
       return Scaffold(
+        extendBody: true,
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.only(
@@ -226,6 +227,7 @@ class _RestaurantListState extends State<RestaurantList> {
           const Icon(
             Icons.location_on,
             size: 15,
+            color: Colors.redAccent,
           ),
           Text(restaurant.city),
         ],

@@ -43,6 +43,11 @@ dependencies:
   loading_animation_widget: ^1.2.0+3
   connectivity_plus: ^2.3.8
   material_design_icons_flutter: ^5.0.6996
+  dot_navigation_bar: ^1.0.1+4
+  bottom_navy_bar: ^6.0.0
+  shared_preferences: ^2.0.15
+  sqflite: ^2.1.0+1
+  fluttertoast: ^8.1.1
 
 dev_dependencies:
   flutter_test:
