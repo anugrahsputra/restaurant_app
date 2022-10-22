@@ -40,7 +40,7 @@ class _DeleteFavoriteDialogState extends State<DeleteFavoriteDialog> {
             widget.databaseProvider.removeFavorite(widget.restoId);
             // Navigator.popAndPushNamed(context, Mainpage.routeName);
             Navigator.pop(context);
-            // Navigator.push(
+            // Navigator.pushReplacement(
             //   context,
             //   MaterialPageRoute(
             //     builder: (context) => Mainpage(),
