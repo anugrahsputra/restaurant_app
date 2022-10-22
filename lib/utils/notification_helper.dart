@@ -42,6 +42,7 @@ class NotificationHelper {
     var restaurantList = await RestaurantApi().list();
     var randomRestaurant = restaurantList
         .restaurants[Random().nextInt(restaurantList.restaurants.length)];
+
     var channelId = "1";
     var channelName = "channel_01";
     var channelDescription = "New Restaurant Recommendation";
@@ -60,12 +61,13 @@ class NotificationHelper {
 
     var platformChannel = NotificationDetails(android: androidPlatformChannel);
 
-    var titleNotification = "<b>News Restaurant Recommendation For You</b>";
+    var titleNotification = "<b>New Restaurant Recommendation For You</b>";
+    var bodyNotification = randomRestaurant.name;
 
     await flutterLocalNotificationsPlugin.show(
       0,
       titleNotification,
-      'check it out',
+      bodyNotification,
       platformChannel,
       payload: json.encode(randomRestaurant.toJson()),
     );

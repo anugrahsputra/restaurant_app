@@ -13,6 +13,7 @@ import 'package:restaurant_app/provider/schedule_provider.dart';
 import 'package:restaurant_app/provider/search_restaurant_provider.dart';
 import 'package:restaurant_app/pages/restaurant_detail.dart';
 import 'package:restaurant_app/pages/search_page.dart';
+import 'package:restaurant_app/provider/shared_preferances_provider.dart';
 import 'package:restaurant_app/utils/background_service.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
 
@@ -57,6 +58,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (context) => ScheduleProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (context) => SharedPreferencesProvider(),
         ),
       ],
       child: MaterialApp(

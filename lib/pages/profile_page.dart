@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:restaurant_app/constant/style.dart';
 import 'package:restaurant_app/main.dart';
 import 'package:restaurant_app/provider/schedule_provider.dart';
+import 'package:restaurant_app/provider/shared_preferances_provider.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
 
 class ProfilePage extends StatelessWidget {
@@ -72,40 +73,45 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget _notifications() {
-    return ListTile(
-      leading: const Icon(
-        MdiIcons.bell,
-        size: 25,
-      ),
-      title: const Text(
-        'Notification',
-        style: TextStyle(fontSize: 18),
-      ),
-      trailing: Consumer<ScheduleProvider>(
-        builder: (context, schedule, child) {
-          return Switch.adaptive(
-            value: schedule.isScheduled,
-            onChanged: (value) async {
-              schedule.scheduledNotification(value);
-              if (value == true) {
-                Fluttertoast.showToast(
-                  msg: 'Notification Enabled',
-                  gravity: ToastGravity.BOTTOM,
-                  backgroundColor: secondaryColor,
-                  textColor: Colors.white,
-                );
-              } else {
-                Fluttertoast.showToast(
-                  msg: 'Notification Disabled',
-                  gravity: ToastGravity.BOTTOM,
-                  backgroundColor: secondaryColor,
-                  textColor: Colors.white,
-                );
-              }
+    return Consumer<SharedPreferencesProvider>(
+      builder: (context, provider, child) {
+        return ListTile(
+          leading: const Icon(
+            MdiIcons.bell,
+            size: 25,
+          ),
+          title: const Text(
+            'Notification',
+            style: TextStyle(fontSize: 18),
+          ),
+          trailing: Consumer<ScheduleProvider>(
+            builder: (context, schedule, child) {
+              return Switch.adaptive(
+                value: provider.notificationSwitch,
+                onChanged: (value) async {
+                  schedule.scheduledNotification(value);
+                  provider.changeNotificationSwitchCondition(value);
+                  if (value == true) {
+                    Fluttertoast.showToast(
+                      msg: 'Notification Enabled',
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: secondaryColor,
+                      textColor: Colors.white,
+                    );
+                  } else {
+                    Fluttertoast.showToast(
+                      msg: 'Notification Disabled',
+                      gravity: ToastGravity.BOTTOM,
+                      backgroundColor: secondaryColor,
+                      textColor: Colors.white,
+                    );
+                  }
+                },
+              );
             },
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 }
