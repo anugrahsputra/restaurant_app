@@ -17,8 +17,8 @@ class RestaurantApi {
   final String mediumImageUrl = '/images/medium/';
   final String largeImageUrl = '/images/large/';
 
-  Future<ListRestaurant> list() async {
-    final response = await http.get(Uri.parse('$baseUrl$restaurantListUrl'));
+  Future<ListRestaurant> list(http.Client client) async {
+    final response = await client.get(Uri.parse('$baseUrl$restaurantListUrl'));
     try {
       if (response.statusCode == 200) {
         return ListRestaurant.fromJson(json.decode(response.body));
@@ -32,9 +32,9 @@ class RestaurantApi {
     }
   }
 
-  Future<DetailRestaurant> detail(id) async {
+  Future<DetailRestaurant> detail(http.Client client, id) async {
     final response =
-        await http.get(Uri.parse('$baseUrl$restaurantDetailUrl$id'));
+        await client.get(Uri.parse('$baseUrl$restaurantDetailUrl$id'));
     try {
       if (response.statusCode == 200) {
         return DetailRestaurant.fromJson(json.decode(response.body));
@@ -48,7 +48,7 @@ class RestaurantApi {
     }
   }
 
-  Future<SearchRestaurant> search(query) async {
+  Future<SearchRestaurant> search(http.Client client, query) async {
     final response =
         await http.get(Uri.parse("$baseUrl$restaurantSearchUrl$query"));
     if (response.statusCode == 200) {

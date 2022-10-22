@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:http/http.dart' as http;
 import 'package:restaurant_app/data/api/restaurant_api.dart';
 import 'package:restaurant_app/data/models/list_restaurant.dart';
 import 'package:rxdart/rxdart.dart';
@@ -39,7 +40,7 @@ class NotificationHelper {
 
   Future<void> showNotification(
       FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin) async {
-    var restaurantList = await RestaurantApi().list();
+    var restaurantList = await RestaurantApi().list(http.Client());
     var randomRestaurant = restaurantList
         .restaurants[Random().nextInt(restaurantList.restaurants.length)];
 
