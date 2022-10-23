@@ -3,10 +3,8 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/constant/style.dart';
-import 'package:restaurant_app/main.dart';
 import 'package:restaurant_app/provider/schedule_provider.dart';
 import 'package:restaurant_app/provider/shared_preferances_provider.dart';
-import 'package:restaurant_app/utils/notification_helper.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -20,15 +18,6 @@ class ProfilePage extends StatelessWidget {
           children: [
             _profile(),
             _notifications(),
-            Center(
-              child: ElevatedButton(
-                onPressed: () async {
-                  await NotificationHelper()
-                      .showNotification(flutterLocalNotificationsPlugin);
-                },
-                child: const Text('test notification'),
-              ),
-            ),
           ],
         ),
       ),
