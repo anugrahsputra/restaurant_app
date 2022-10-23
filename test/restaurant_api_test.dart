@@ -10,7 +10,7 @@ import 'package:restaurant_app/data/models/search_restaurant.dart';
 
 void main() {
   group(
-    'Testing Restaurant List from API ',
+    'Testing Restaurant API ',
     () {
       test(
         'Return a list of restaurants',
