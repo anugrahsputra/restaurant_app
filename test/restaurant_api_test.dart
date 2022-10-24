@@ -56,14 +56,14 @@ void main() {
             },
           );
           expect(
-            await RestaurantApi().detail(client, 'Restaurant Id'),
+            await RestaurantApi().detail('Restaurant Id', client),
             isA<DetailRestaurant>(),
           );
         },
       );
 
       test(
-        'Return Searched Restaurant',
+        'for Restaurant Search',
         () async {
           final client = MockClient(
             (request) async {
@@ -76,10 +76,8 @@ void main() {
             },
           );
 
-          expect(
-            await RestaurantApi().search(client, 'Search Restaurant'),
-            isA<SearchRestaurant>(),
-          );
+          expect(await RestaurantApi().search('Restaurant Name', client),
+              isA<SearchRestaurant>());
         },
       );
     },
