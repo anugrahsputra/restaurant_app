@@ -14,7 +14,7 @@ class PageTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        vertical: 30,
+        vertical: 20,
         horizontal: 24,
       ),
       child: Text(

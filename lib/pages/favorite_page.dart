@@ -15,82 +15,80 @@ class FavoritePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: Consumer<DatabaseProvider>(
-          builder: (context, provider, child) {
-            if (provider.state == ResultState.loading) {
-              return Center(
-                child: LoadingAnimationWidget.staggeredDotsWave(
-                    color: secondaryColor, size: 40),
-              );
-            } else if (provider.state == ResultState.hasData) {
-              return RefreshIndicator(
-                onRefresh: () => Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => Mainpage(),
-                  ),
-                ),
-                child: SingleChildScrollView(
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const PageTitle(title: 'Your Favorite Resto', size: 30),
-                      _buildList(provider),
-                    ],
-                  ),
-                ),
-              );
-            } else {
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    SizedBox(
-                      height: MediaQuery.of(context).size.height / 3.5,
-                    ),
-                    const Icon(
-                      MdiIcons.food,
-                      size: 75,
-                      color: Color(0xffd3d3d3),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Text(
-                      'You don\'t have favorite resto',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xffd3d3d3),
+    return Scaffold(
+      body: SafeArea(
+        child: RefreshIndicator(
+          onRefresh: () => Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Mainpage(),
+            ),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const PageTitle(title: 'Your Favorite Resto', size: 30),
+              Consumer<DatabaseProvider>(
+                builder: (context, provider, child) {
+                  if (provider.state == ResultState.loading) {
+                    return Center(
+                      child: LoadingAnimationWidget.staggeredDotsWave(
+                          color: secondaryColor, size: 40),
+                    );
+                  } else if (provider.state == ResultState.hasData) {
+                    return _buildList(provider);
+                  } else {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          SizedBox(
+                            height: MediaQuery.of(context).size.height / 3.5,
+                          ),
+                          const Icon(
+                            MdiIcons.food,
+                            size: 75,
+                            color: Color(0xffd3d3d3),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            'You don\'t have favorite resto',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                              color: Color(0xffd3d3d3),
+                            ),
+                          )
+                        ],
                       ),
-                    )
-                  ],
-                ),
-              );
-            }
-          },
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
   Widget _buildList(DatabaseProvider provider) {
-    return ListView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      itemCount: provider.favorite.length,
-      itemBuilder: (context, index) {
-        var resto = provider.favorite[index];
+    return Expanded(
+      child: ListView.builder(
+        shrinkWrap: true,
+        itemCount: provider.favorite.length,
+        itemBuilder: (context, index) {
+          var resto = provider.favorite[index];
 
-        return FavoriteRestoCard(
-          restaurantId: resto,
-        );
-      },
+          return FavoriteRestoCard(
+            restaurantId: resto,
+          );
+        },
+      ),
     );
   }
 }

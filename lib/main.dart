@@ -72,7 +72,17 @@ class MyApp extends StatelessWidget {
                 secondary: secondaryColor,
               ),
           textTheme: textTheme,
-          appBarTheme: const AppBarTheme(elevation: 0),
+          appBarTheme: AppBarTheme(
+            elevation: 0,
+            color: Colors.white,
+            titleTextStyle: TextStyle(
+              color: Colors.black,
+              fontFamily: textTheme.headline6!.fontFamily,
+            ),
+            iconTheme: const IconThemeData(
+              color: Colors.black,
+            ),
+          ),
           scaffoldBackgroundColor: Colors.white,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),

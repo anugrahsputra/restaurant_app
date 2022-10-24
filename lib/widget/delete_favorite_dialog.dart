@@ -38,14 +38,9 @@ class _DeleteFavoriteDialogState extends State<DeleteFavoriteDialog> {
         TextButton(
           onPressed: () {
             widget.databaseProvider.removeFavorite(widget.restoId);
-            // Navigator.popAndPushNamed(context, Mainpage.routeName);
+
             Navigator.pop(context);
-            // Navigator.pushReplacement(
-            //   context,
-            //   MaterialPageRoute(
-            //     builder: (context) => Mainpage(),
-            //   ),
-            // );
+
             Fluttertoast.showToast(
               msg:
                   '${widget.dataRestaurantProvider.detail.restaurant.name} successfully removed from favorite',

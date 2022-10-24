@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:restaurant_app/constant/style.dart';
+import 'package:restaurant_app/main.dart';
 import 'package:restaurant_app/pages/restaurant_detail.dart';
 import 'package:restaurant_app/provider/bottom_navbar_provider.dart';
 import 'package:restaurant_app/utils/notification_helper.dart';
@@ -22,7 +23,7 @@ class _MainpageState extends State<Mainpage> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      // _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
+      _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
       _notificationHelper.configureSelectionNotificationSubject(
           context, RestoDetail.routeName);
     });

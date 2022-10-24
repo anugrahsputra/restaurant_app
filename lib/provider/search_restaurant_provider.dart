@@ -30,7 +30,7 @@ class SearchRestaurantProvider extends ChangeNotifier {
     try {
       _state = ResultState.loading;
       notifyListeners();
-      final restaurant = await restaurantApi.search(http.Client(), query);
+      final restaurant = await restaurantApi.search(query, http.Client());
       if (restaurant.restaurants.isEmpty) {
         _state = ResultState.noData;
         notifyListeners();

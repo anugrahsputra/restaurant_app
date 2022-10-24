@@ -32,7 +32,7 @@ class RestaurantApi {
     }
   }
 
-  Future<DetailRestaurant> detail(http.Client client, id) async {
+  Future<DetailRestaurant> detail(id, http.Client client) async {
     final response =
         await client.get(Uri.parse('$baseUrl$restaurantDetailUrl$id'));
     try {
@@ -48,9 +48,9 @@ class RestaurantApi {
     }
   }
 
-  Future<SearchRestaurant> search(http.Client client, query) async {
+  Future<SearchRestaurant> search(query, http.Client client) async {
     final response =
-        await http.get(Uri.parse("$baseUrl$restaurantSearchUrl$query"));
+        await client.get(Uri.parse("$baseUrl$restaurantSearchUrl$query"));
     if (response.statusCode == 200) {
       return SearchRestaurant.fromJson(json.decode(response.body));
     } else {

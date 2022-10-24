@@ -72,7 +72,6 @@ class _RestaurantListState extends State<RestaurantList> {
   Widget build(BuildContext context) {
     if (_connectionStatus != ConnectivityResult.none) {
       return Scaffold(
-        extendBody: true,
         body: SafeArea(
           child: Container(
             padding: const EdgeInsets.only(
