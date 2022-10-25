@@ -6,27 +6,39 @@ class NetworkDisconnected extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        child: Column(
-          children: const [
-            Icon(
-              MdiIcons.connection,
-              size: 80,
-              color: Color(0xffd3d3d3),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Text(
-              'Check Your Internet Connection',
-              style: TextStyle(
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                color: Color(0xffd3d3d3),
+    return Scaffold(
+      body: SafeArea(
+        child: Center(
+          child: Column(
+            children: [
+              SizedBox(
+                height: MediaQuery.of(context).size.height / 3.5,
               ),
-            )
-          ],
+              Container(
+                margin: const EdgeInsets.all(50),
+                child: Column(
+                  children: const [
+                    Icon(
+                      MdiIcons.connection,
+                      size: 80,
+                      color: Color(0xffd3d3d3),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      'Check Your Internet Connection',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xffd3d3d3),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

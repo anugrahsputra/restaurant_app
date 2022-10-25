@@ -35,43 +35,47 @@ class FavoritePage extends StatelessWidget {
                       child: LoadingAnimationWidget.staggeredDotsWave(
                           color: secondaryColor, size: 40),
                     );
-                  } else if (provider.state == ResultState.hasData) {
-                    return _buildList(provider);
+                  } else if (provider.state == ResultState.noData) {
+                    return _noFavoriteResto(context);
                   } else {
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                            height: MediaQuery.of(context).size.height / 3.5,
-                          ),
-                          const Icon(
-                            MdiIcons.food,
-                            size: 75,
-                            color: Color(0xffd3d3d3),
-                          ),
-                          const SizedBox(
-                            height: 10,
-                          ),
-                          const Text(
-                            'You don\'t have favorite resto',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xffd3d3d3),
-                            ),
-                          )
-                        ],
-                      ),
-                    );
+                    return _buildList(provider);
                   }
                 },
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _noFavoriteResto(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          SizedBox(
+            height: MediaQuery.of(context).size.height / 3.5,
+          ),
+          const Icon(
+            MdiIcons.food,
+            size: 75,
+            color: Color(0xffd3d3d3),
+          ),
+          const SizedBox(
+            height: 10,
+          ),
+          const Text(
+            'You don\'t have favorite resto',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Color(0xffd3d3d3),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -23,20 +23,20 @@ class DetailRestaurantProvider extends ChangeNotifier {
     try {
       _state = ResultState.loading;
       notifyListeners();
-      final restaurant = await restaurantApi.detail(id, http.Client());
-      if (restaurant.restaurant.toJson().isEmpty) {
+      final resto = await restaurantApi.detail(id, http.Client());
+      if (resto.restaurant.toJson().isEmpty) {
         _state = ResultState.noData;
         notifyListeners();
-        return _message = 'data is empty';
+        return _message = 'Data is Empty';
       } else {
         _state = ResultState.hasData;
         notifyListeners();
-        return _detailRestaurant = restaurant;
+        return _detailRestaurant = resto;
       }
     } catch (e) {
       _state = ResultState.error;
       notifyListeners();
-      return _message = 'Error => $e';
+      return _message = 'Error: $e';
     }
   }
 }

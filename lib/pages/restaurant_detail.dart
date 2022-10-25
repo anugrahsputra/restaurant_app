@@ -4,10 +4,12 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/constant/navigation.dart';
 import 'package:restaurant_app/data/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/result_state.dart';
 import 'package:restaurant_app/constant/style.dart';
 import 'package:restaurant_app/data/models/detail_restaurant.dart';
+import 'package:restaurant_app/pages/main_page.dart';
 import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/detail_restaurant_provider.dart';
 import 'package:restaurant_app/widget/expanded_text.dart';
@@ -29,7 +31,7 @@ class RestoDetail extends StatefulWidget {
 class _RestoDetailState extends State<RestoDetail> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
+    return ChangeNotifierProvider<DetailRestaurantProvider>(
       create: (context) => DetailRestaurantProvider(
         restaurantApi: RestaurantApi(),
         id: widget.id,
@@ -49,7 +51,11 @@ class _RestoDetailState extends State<RestoDetail> {
                     leading: Center(
                       child: IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Mainpage(),
+                              ));
                         },
                         icon: const Icon(
                           MdiIcons.chevronLeftCircle,

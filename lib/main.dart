@@ -2,6 +2,7 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:restaurant_app/constant/navigation.dart';
 import 'package:restaurant_app/data/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/style.dart';
 import 'package:restaurant_app/data/db/database_helper.dart';
@@ -79,13 +80,11 @@ class MyApp extends StatelessWidget {
               color: Colors.black,
               fontFamily: textTheme.headline6!.fontFamily,
             ),
-            iconTheme: const IconThemeData(
-              color: Colors.black,
-            ),
           ),
           scaffoldBackgroundColor: Colors.white,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        navigatorKey: navigatorKey,
         initialRoute: Mainpage.routeName,
         routes: {
           Mainpage.routeName: (context) => const Mainpage(),
