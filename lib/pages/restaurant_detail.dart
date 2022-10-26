@@ -1,16 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:restaurant_app/api/restaurant_api.dart';
+import 'package:restaurant_app/constant/navigation.dart';
+import 'package:restaurant_app/data/api/restaurant_api.dart';
 import 'package:restaurant_app/constant/result_state.dart';
 import 'package:restaurant_app/constant/style.dart';
-import 'package:restaurant_app/models/detail_restaurant.dart';
+import 'package:restaurant_app/data/models/detail_restaurant.dart';
+import 'package:restaurant_app/pages/main_page.dart';
+import 'package:restaurant_app/provider/database_provider.dart';
 import 'package:restaurant_app/provider/detail_restaurant_provider.dart';
 import 'package:restaurant_app/widget/expanded_text.dart';
 
-class RestoDetail extends StatelessWidget {
+class RestoDetail extends StatefulWidget {
   const RestoDetail({
     Key? key,
     required this.id,
@@ -21,10 +25,17 @@ class RestoDetail extends StatelessWidget {
   final String id;
 
   @override
+  State<RestoDetail> createState() => _RestoDetailState();
+}
+
+class _RestoDetailState extends State<RestoDetail> {
+  @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) =>
-          DetailRestaurantProvider(restaurantApi: RestaurantApi(), id: id),
+    return ChangeNotifierProvider<DetailRestaurantProvider>(
+      create: (context) => DetailRestaurantProvider(
+        restaurantApi: RestaurantApi(),
+        id: widget.id,
+      ),
       child: Scaffold(
         body: Consumer<DetailRestaurantProvider>(
           builder: (context, state, _) {
@@ -40,7 +51,11 @@ class RestoDetail extends StatelessWidget {
                     leading: Center(
                       child: IconButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => const Mainpage(),
+                              ));
                         },
                         icon: const Icon(
                           MdiIcons.chevronLeftCircle,
@@ -71,33 +86,90 @@ class RestoDetail extends StatelessWidget {
                                 topLeft: Radius.circular(20),
                                 topRight: Radius.circular(20),
                               )),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                state.detail.restaurant.name,
-                                style: const TextStyle(
-                                  fontSize: 30,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                              Row(
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  const Icon(
-                                    Icons.location_on,
-                                    color: Colors.red,
-                                    size: 15,
-                                  ),
                                   Text(
-                                    state.detail.restaurant.city,
-                                    style: textTheme.bodyText1,
+                                    state.detail.restaurant.name,
+                                    style: const TextStyle(
+                                      fontSize: 24,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                                   ),
+                                  Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.location_on,
+                                        color: Colors.red,
+                                        size: 15,
+                                      ),
+                                      Text(
+                                        state.detail.restaurant.city,
+                                        style: textTheme.bodyText1,
+                                      ),
+                                    ],
+                                  ),
+                                  const SizedBox(
+                                    height: 5,
+                                  ),
+                                  _rating(state.detail.restaurant),
                                 ],
                               ),
-                              const SizedBox(
-                                height: 5,
+                              Consumer<DatabaseProvider>(
+                                builder: (context, provider, child) {
+                                  return FutureBuilder(
+                                    future: provider
+                                        .isFavorite(state.detail.restaurant.id),
+                                    builder: (context, snapshot) {
+                                      var isFavorite = snapshot.data ?? false;
+                                      if (isFavorite == true) {
+                                        return IconButton(
+                                          onPressed: () {
+                                            provider.removeFavorite(
+                                                state.detail.restaurant.id);
+                                            Fluttertoast.showToast(
+                                              msg:
+                                                  '${state.detail.restaurant.name} removed from favorite',
+                                              backgroundColor: secondaryColor,
+                                              textColor: Colors.white,
+                                              gravity: ToastGravity.BOTTOM,
+                                            );
+                                            setState(() {});
+                                          },
+                                          icon: const Icon(
+                                            MdiIcons.heartCircle,
+                                            size: 50,
+                                            color: Colors.redAccent,
+                                          ),
+                                        );
+                                      } else {
+                                        return IconButton(
+                                          onPressed: () {
+                                            provider.addFavorite(
+                                                state.detail.restaurant.id);
+                                            Fluttertoast.showToast(
+                                              msg:
+                                                  '${state.detail.restaurant.name} added to favorite',
+                                              backgroundColor: secondaryColor,
+                                              textColor: Colors.white,
+                                              gravity: ToastGravity.BOTTOM,
+                                            );
+                                            setState(() {});
+                                          },
+                                          icon: const Icon(
+                                            MdiIcons.heartCircleOutline,
+                                            size: 50,
+                                            color: Colors.redAccent,
+                                          ),
+                                        );
+                                      }
+                                    },
+                                  );
+                                },
                               ),
-                              _rating(state.detail.restaurant),
                             ],
                           ),
                         ),
