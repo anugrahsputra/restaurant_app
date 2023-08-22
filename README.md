@@ -1,6 +1,6 @@
 # restaurant_app
 
-A new Flutter project.
+A project Submission for dicoding
 
 ## Getting Started
 
